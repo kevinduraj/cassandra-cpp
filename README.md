@@ -18,6 +18,8 @@ brew list
 
 ## References:
 
+* https://github.com/datastax/cpp-driver
+* https://github.com/datastax/cpp-driver/tree/master/cmake/modules
 * https://github.com/mpenick/cpp-driver-example
 
 
