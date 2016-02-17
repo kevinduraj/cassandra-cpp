@@ -2,10 +2,20 @@
 // Created by Kevin Duraj on 2/16/16.
 //
 
-#include <cassandra.h>
+#include <ostream>
+#include <iostream>
 #include "QueryCQL.h"
 
-void QueryCQL::execute(const char *Host, const char *Col1, const char *CQL) {
+void QueryCQL::print_column(const CassValue *col1) {
+
+    const char *value_name;
+    size_t value_length;
+    cass_value_get_string(col1, &value_name, &value_length);
+    printf("%.*s\t", (int) value_length, value_name);
+
+}
+
+void QueryCQL::execute(const char *Host, const char *CQL, const int num_column) {
 
     /* Setup and connect to cluster */
     CassFuture *connect_future = NULL;
@@ -19,25 +29,27 @@ void QueryCQL::execute(const char *Host, const char *Col1, const char *CQL) {
         CassFuture *close_future = NULL;
 
         CassStatement *statement = cass_statement_new(CQL, 0);
-        CassFuture *result_future = cass_session_execute(session, statement);
+        CassFuture *future = cass_session_execute(session, statement);
 
-        if (cass_future_error_code(result_future) == CASS_OK) {
+        if (cass_future_error_code(future) == CASS_OK) {
 
             /* Retrieve result set and iterate over the rows */
-            const CassResult *result = cass_future_get_result(result_future);
+            const CassResult *result = cass_future_get_result(future);
             CassIterator *rows = cass_iterator_from_result(result);
 
-            int counter=1;
+            int counter = 1;
             while (cass_iterator_next(rows)) {
 
                 const CassRow *row = cass_iterator_get_row(rows);
-                const CassValue *value = cass_row_get_column_by_name(row, Col1);
+                //const CassValue *value = cass_row_get_column_by_name(row, Col1);
 
-                const char *value_name;
-                size_t value_length;
-                cass_value_get_string(value, &value_name, &value_length);
-                printf("%5i: %s = '%.*s'\n", counter++, Col1, (int) value_length, value_name);
+                printf("%5i: ", counter++);
+                for (int i = 0; i < num_column; i++) {
+                    const CassValue *col1 = cass_row_get_column(row, i);
+                    print_column(col1);
+                }
 
+                cout << endl;
             }
 
             cass_result_free(result);
@@ -48,12 +60,12 @@ void QueryCQL::execute(const char *Host, const char *Col1, const char *CQL) {
             /* Handle error */
             const char *message;
             size_t message_length;
-            cass_future_error_message(result_future, &message, &message_length);
+            cass_future_error_message(future, &message, &message_length);
             fprintf(stderr, "Unable to run query: '%.*s'\n", (int) message_length, message);
         }
 
         cass_statement_free(statement);
-        cass_future_free(result_future);
+        cass_future_free(future);
 
         /* Close the session */
         close_future = cass_session_close(session);
