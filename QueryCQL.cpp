@@ -5,27 +5,20 @@
 #include <cassandra.h>
 #include "QueryCQL.h"
 
-void QueryCQL::execute(const char *Col1, const char *CQL) {
+void QueryCQL::execute(const char *Host, const char *Col1, const char *CQL) {
 
     /* Setup and connect to cluster */
     CassFuture *connect_future = NULL;
     CassCluster *cluster = cass_cluster_new();
     CassSession *session = cass_session_new();
 
-    /* Add contact points */
-    cass_cluster_set_contact_points(cluster, "192.168.1.159");
-
-    /* Provide the cluster object as configuration to connect the session */
+    cass_cluster_set_contact_points(cluster, Host);
     connect_future = cass_session_connect(session, cluster);
 
     if (cass_future_error_code(connect_future) == CASS_OK) {
         CassFuture *close_future = NULL;
 
-        /* Build statement and execute query */
-        //const char *query = "SELECT keyspace_name FROM system.schema_keyspaces;";
-
         CassStatement *statement = cass_statement_new(CQL, 0);
-
         CassFuture *result_future = cass_session_execute(session, statement);
 
         if (cass_future_error_code(result_future) == CASS_OK) {
@@ -34,15 +27,16 @@ void QueryCQL::execute(const char *Col1, const char *CQL) {
             const CassResult *result = cass_future_get_result(result_future);
             CassIterator *rows = cass_iterator_from_result(result);
 
+            int counter=1;
             while (cass_iterator_next(rows)) {
 
                 const CassRow *row = cass_iterator_get_row(rows);
                 const CassValue *value = cass_row_get_column_by_name(row, Col1);
 
-                const char *keyspace_name;
-                size_t keyspace_name_length;
-                cass_value_get_string(value, &keyspace_name, &keyspace_name_length);
-                printf("%s = '%.*s'\n", Col1, (int) keyspace_name_length, keyspace_name);
+                const char *value_name;
+                size_t value_length;
+                cass_value_get_string(value, &value_name, &value_length);
+                printf("%5i: %s = '%.*s'\n", counter++, Col1, (int) value_length, value_name);
 
             }
 
@@ -73,6 +67,7 @@ void QueryCQL::execute(const char *Col1, const char *CQL) {
         size_t message_length;
         cass_future_error_message(connect_future, &message, &message_length);
         fprintf(stderr, "Unable to connect: '%.*s'\n", (int) message_length, message);
+
     }
 
     cass_future_free(connect_future);

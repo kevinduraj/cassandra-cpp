@@ -13,7 +13,7 @@ class QueryCQL {
 public:
 
     QueryCQL() { }
-    void execute(const char *Col1, const char *CQL);
+    void execute(const char *Host, const char *Col1, const char *CQL);
 };
 
 
