@@ -11,7 +11,7 @@ void QueryCQL::print_column(const CassValue *col1) {
     const char *value_name;
     size_t value_length;
     cass_value_get_string(col1, &value_name, &value_length);
-    printf("%.*s\t", (int) value_length, value_name);
+    printf("|%.*s", (int) value_length, value_name);
 
 }
 
@@ -43,7 +43,7 @@ void QueryCQL::execute(const char *Host, const char *CQL, const int num_column) 
                 const CassRow *row = cass_iterator_get_row(rows);
                 //const CassValue *value = cass_row_get_column_by_name(row, Col1);
 
-                printf("%5i: ", counter++);
+                printf("%i", counter++);
                 for (int i = 0; i < num_column; i++) {
                     const CassValue *col1 = cass_row_get_column(row, i);
                     print_column(col1);

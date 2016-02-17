@@ -10,6 +10,8 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
     if (argc < 3) {
+
+        display_schema();
         cout << "Usage: " << std::endl;
         cout << "./cassandra_cpp 192.168.1.159 \"select * from  engine.link limit 30\" 2" << std::endl;
         return 1;
@@ -20,7 +22,8 @@ int main(int argc, char* argv[]) {
         QueryCQL *cql = new QueryCQL();
 
         int num_columns = 0;
-        if(argv[3]) num_columns = atoi(argv[3]);
+
+        if(argc == 4) num_columns = atoi(argv[3]);
         else num_columns = 1;
         cql->execute(argv[1], argv[2], num_columns);
     }
