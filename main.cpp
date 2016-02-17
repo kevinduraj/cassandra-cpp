@@ -3,6 +3,7 @@
 #include <iostream>
 #include "NLP.h"
 #include "Schema.h"
+#include "QueryCQL.h"
 
 void process_nlp();
 
@@ -12,9 +13,12 @@ int main() {
 
     cout << "Starting C++ for Cassandra Demo" << endl << endl;
 
-    Schema * schema = new Schema();
-    schema->display_schema();
-    delete schema;
+    //Schema * schema = new Schema();
+    //schema->display_schema();
+    //delete schema;
+
+    QueryCQL * cql = new QueryCQL();
+    cql->execute("url", "select * from  engine.link limit 10");
 
     return 0;
 }
