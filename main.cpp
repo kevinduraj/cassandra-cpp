@@ -1,3 +1,8 @@
+/**
+ * Cassandra dynamic CQL executor
+ * Build : cmake cassandra_cpp; make
+ * Run   : ./cassandra_cpp 192.168.1.159 "select * from engine.link limit 10" 2
+ */
 #include <iostream>
 #include "QueryCQL.h"
 #include "Schema.h"

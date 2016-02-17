@@ -16,6 +16,11 @@ brew doctor
 brew list
 ```
 
+## Sample Usage
+```
+./cassandra_cpp 192.168.1.159 "SELECT * FROM engine.link LIMIT 10" 2
+```
+
 ## Sample Output
 ```
 1|puntolibre.org|http://www.puntolibre.org
