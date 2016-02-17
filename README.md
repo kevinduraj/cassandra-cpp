@@ -16,6 +16,21 @@ brew doctor
 brew list
 ```
 
+## Sample Output
+```
+    1: puntolibre.org http://www.puntolibre.org 
+    2: puntolibre.org http://www.puntolibre.org/  
+    3: puntolibre.org http://www.puntolibre.org/chuukyuu/ 
+    4: puntolibre.org http://www.puntolibre.org/chuukyuu/akushitsu/ 
+    5: puntolibre.org http://www.puntolibre.org/chuukyuu/muryou/  
+    6: puntolibre.org http://www.puntolibre.org/chuukyuu/sakura/  
+    7: puntolibre.org http://www.puntolibre.org/feed/ 
+    8: puntolibre.org http://www.puntolibre.org/jyoukyuu/ 
+    9: puntolibre.org http://www.puntolibre.org/jyoukyuu/date/  
+   10: puntolibre.org http://www.puntolibre.org/jyoukyuu/nagatsuduki/ 
+
+```
+
 ## References:
 
 * https://github.com/datastax/cpp-driver
