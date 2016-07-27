@@ -4,6 +4,7 @@
 
 #include <ostream>
 #include <iostream>
+#include <stdio.h>
 #include "QueryCQL.h"
 
 void QueryCQL::print_column(const CassValue *col1) {

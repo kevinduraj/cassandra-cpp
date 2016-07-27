@@ -4,6 +4,7 @@
  * Run   : ./cassandra_cpp 192.168.1.159 "select * from engine.link limit 10" 2
  */
 #include <iostream>
+#include <stdlib.h>  
 #include "QueryCQL.h"
 #include "Schema.h"
 

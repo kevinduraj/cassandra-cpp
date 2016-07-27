@@ -1,0 +1,1 @@
+/usr/bin/c++    -std=c++11    CMakeFiles/nootrino.dir/main.cpp.o CMakeFiles/nootrino.dir/QueryCQL.cpp.o CMakeFiles/nootrino.dir/Schema.cpp.o  -o nootrino -rdynamic /usr/local/lib64/libcassandra.so -luv -Wl,-rpath,/usr/local/lib64 
