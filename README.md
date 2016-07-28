@@ -46,7 +46,7 @@ cd build
 cmake ..
 ```
 
-## Mac OS install homebrew and packages
+## Mac OS installation using homebrew packages
 
 ```
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
